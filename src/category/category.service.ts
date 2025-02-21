@@ -16,10 +16,17 @@ export class CategoryService {
 
     async getCategory():Promise<CategoryEntity[]>{
         const categories = await this.categoryRepository
-        .createQueryBuilder("category")
-        .select(["category.id", "category.categoryname"])
-        .getMany();
-        return categories;
+    .createQueryBuilder("category")
+    .leftJoinAndSelect("category.subCategory", "subCategory") // Join subCategory table
+    .select([
+        "category.id",
+        "category.categoryname",
+        "subCategory.id",
+        "subCategory.subcategoryname"
+    ])
+    .getMany();
+return categories;
+
 
     };
 
