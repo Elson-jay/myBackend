@@ -15,7 +15,12 @@ export class CategoryService {
     ){}
 
     async getCategory():Promise<CategoryEntity[]>{
-        return await this.categoryRepository.find();
+        const categories = await this.categoryRepository
+        .createQueryBuilder("category")
+        .select(["category.id", "category.categoryname"])
+        .getMany();
+        return categories;
+
     };
 
     async addCategory(categoryDto :CategoryDto){
