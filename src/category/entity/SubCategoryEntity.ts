@@ -14,5 +14,5 @@ export class SubCategoryEntity {
 
     @ManyToOne(() => CategoryEntity,(category)=>category.subCategory)
     @JoinColumn({name:'categoryId'})
-    category:CategoryEntity[]
+    category:CategoryEntity;
 }
