@@ -1,4 +1,15 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CategoryService } from './category.service';
+import { CategoryDto } from './Dto/Category-dto';
 
 @Controller('category')
-export class CategoryController {}
+export class CategoryController {
+    constructor(
+        private readonly categoryService:CategoryService
+    ){}
+
+    @Post('/addCategory')
+    async addCategory(@Body() categorydto:CategoryDto){
+        return await this.categoryService.addCategory(categorydto)
+    }
+}
