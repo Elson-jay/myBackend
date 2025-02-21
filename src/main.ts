@@ -29,7 +29,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
   });
-  await app.listen(process.env.PORT ?? 4040,'0.0.0.0');
+  await app.listen(process.env.PORT ?? 4040);
 
 }
 bootstrap();
