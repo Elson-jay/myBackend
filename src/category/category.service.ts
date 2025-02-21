@@ -19,11 +19,11 @@ export class CategoryService {
     };
 
     async addCategory(categoryDto :CategoryDto){
-        const newCategory = this.categoryRepository.create({ categoryname: categoryDto.name });
+        const newCategory = this.categoryRepository.create({ categoryname: categoryDto.categoryname });
         const savedCategory = await this.categoryRepository.save(newCategory);
     
         const subcategories = categoryDto.subcategory.map(sub => ({
-            name: sub.name,
+            subcategoryname: sub.subcategoryname,
             categoryId: savedCategory.id, 
         }));
     

@@ -6,7 +6,7 @@ import { IsAscii, IsNotEmpty, ValidateNested } from "class-validator";
 export class subCategoryDto {
     @IsNotEmpty()
     @ApiProperty()
-    name:string
+    subcategoryname:string
 
     @IsNotEmpty()
     categoryId:number
@@ -16,7 +16,7 @@ export class CategoryDto {
 
     @IsNotEmpty()
     @ApiProperty()
-    name:string
+    categoryname:string
 
     @IsAscii()
     @ValidateNested({each:true})
