@@ -42,7 +42,6 @@ import { UserEntity } from './login/entity/UserEntity';
         entities: [ProductEntity,PurchaseEntity,SalesEntity,InventoryEntity,CategoryEntity,SubCategoryEntity,VendorEntity,CustomerEntity,
           StatusEntity,SalesItemEntity,PurchaseItemEntity,UserEntity
         ], 
-        synchronize: true, 
         logging: true,
       }),
       inject: [ConfigService],
