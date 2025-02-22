@@ -1,19 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { PurchaseItemEntity } from "./PurchaseItemEntity";
 
 @Entity({name:'purchase'})
 export class PurchaseEntity {
 
     @PrimaryGeneratedColumn()
     id:number;
-
-    @Column()
-    purchaseitemid:number;
-
-    @Column()
-    quantity:number;
-
-    @Column()
-    purchasePrice:number;
 
     @Column()
     supplierId:number;
@@ -25,5 +17,11 @@ export class PurchaseEntity {
     totalPrice:number;
 
     @Column()
+    paymentMethod:string;
+
+    @Column()
     bill:string;
+
+    @OneToMany(() => PurchaseItemEntity,(item)=>item.purchase,{cascade:true})
+    item:PurchaseItemEntity[];
 }

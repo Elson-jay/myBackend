@@ -1,19 +1,21 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PurchaseEntity } from "./PurchaseEntity";
 
-@Entity({name:'purchaseitems'})
+@Entity({ name: 'purchaseitems' })
 export class PurchaseItemEntity {
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
+
+    @ManyToOne(() => PurchaseEntity, (purchase) => purchase.item, { eager: true })
+    @JoinColumn({ name: 'purchaseId' })
+    purchase: PurchaseEntity;
 
     @Column()
-    productId:number;
+    productId: number;
 
-    @Column()
-    productname:string;
+    @Column({ type: 'int' })  // ✅ Change from `string` to `int`
+    quantity: number;
 
-    @Column()
-    quantity:string;
-
-    @Column()
-    price:number;
+    @Column({ type: 'decimal', precision: 10, scale: 2 })  // ✅ Ensure price is stored correctly
+    price: number;
 }
