@@ -16,35 +16,40 @@ export class PurchaseService {
 
     ){}
 
-    async addPurchase(purchasedto:PurchaseDto){
+    async addPurchase(purchasedto: PurchaseDto) {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
-
-        try{
+    
+        try {
             const newPurchase = this.purchaseRepository.create({
                 supplierId: purchasedto.supplierId,
                 purchaseDate: purchasedto.purchaseDate,
                 paymentMethod: purchasedto.paymentMethod,
                 bill: purchasedto.bill,
                 totalPrice: purchasedto.purchase.reduce((sum, item) => sum + item.price * item.quantity, 0),
-            })
-
-            const purchase = await queryRunner.manager.save(newPurchase)
-
+            });
+    
+            const purchase = await queryRunner.manager.save(newPurchase);
+    
             const purchaseItems = purchasedto.purchase.map((item) => ({
                 productId: item.productId,
                 quantity: Number(item.quantity),
                 price: Number(item.price),
                 purchaseId: purchase.id,
             }));
-
-           await queryRunner.manager.save(PurchaseItemEntity,purchaseItems)
-        }catch (error) {
-            await queryRunner.rollbackTransaction();
+    
+            const createPurchaseItem = this.purchaseItemRepository.create(purchaseItems);
+            await queryRunner.manager.save(createPurchaseItem); 
+    
+            await queryRunner.commitTransaction();
+            return { message: 'Purchase Added', code: 200 };
+        } catch (error) {
+            await queryRunner.rollbackTransaction(); 
             throw new Error(`Failed to add purchase: ${error.message}`);
         } finally {
             await queryRunner.release();
         }
     }
+    
 }
