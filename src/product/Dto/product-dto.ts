@@ -2,18 +2,18 @@ import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class ProductDto {
 
-    @IsNotEmpty({message:'product name is required'})
+    @IsNotEmpty()
     @IsString()
     productName:string;
 
-    @IsNotEmpty({message:'price is required'})
+    @IsNotEmpty()
     @IsNumber()
     productPrice:number;
 
-    @IsNotEmpty({message:'sales Price is required'})
+    @IsNotEmpty()
     salesPrice:number;
 
-    @IsNotEmpty({message:''})
+    @IsNotEmpty()
     mrp:number;
 
     @IsNotEmpty()
