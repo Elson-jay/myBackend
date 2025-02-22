@@ -4,9 +4,10 @@ import { PurchaseService } from './purchase.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PurchaseItemEntity } from './entity/PurchaseItemEntity';
 import { PurchaseEntity } from './entity/PurchaseEntity';
+import { ProductEntity } from 'src/product/entity/productEntity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([PurchaseItemEntity,PurchaseEntity])],
+  imports:[TypeOrmModule.forFeature([PurchaseItemEntity,PurchaseEntity,ProductEntity])],
   controllers: [PurchaseController],
   providers: [PurchaseService]
 })

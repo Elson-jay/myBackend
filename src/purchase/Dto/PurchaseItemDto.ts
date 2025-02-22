@@ -11,7 +11,4 @@ export class PurchaseItemDto {
     @ApiProperty()
     quantity:number;
 
-    @IsNotEmpty()
-    @ApiProperty()
-    price:number;
 }
