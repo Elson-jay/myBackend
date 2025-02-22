@@ -4,13 +4,15 @@ import { Repository } from 'typeorm';
 import { ProductEntity } from './entity/productEntity';
 import { ProductDto } from './Dto/product-dto';
 import { ProductDeleteDto, UpdateProductDto } from './Dto/updateProduct-dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { CategoryEntity } from 'src/category/entity/CategoryEntity';
 
 @Injectable()
 export class ProductService {
     constructor(
         @InjectRepository(ProductEntity)
         private readonly productRepository:Repository<ProductEntity>,
+        @InjectRepository(CategoryEntity)
+        private readonly categoryRepository:Repository<CategoryEntity>
     ){}
 
     async getProduct(){
@@ -23,7 +25,17 @@ export class ProductService {
         if(Object.values(productdto).some(value => value === undefined || value == null || value === '')){
             throw new BadRequestException("Fill all the details")
         }
+        const category = this.categoryRepository.find()
 
+        const categoryExists = (await category).find(cat => 
+            cat.id === productdto.catgoryId &&
+            cat.subCategory.some(subCat => subCat.id === productdto.subCatgoryId)
+        );
+        
+        if (!categoryExists) {
+            throw new BadRequestException('Invalid category or subcategory ID');
+        }
+        
         const newProduct = this.productRepository.create(productdto)
         await this.productRepository.save(newProduct)
         return {
