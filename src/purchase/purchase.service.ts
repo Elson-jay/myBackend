@@ -10,7 +10,7 @@ export class PurchaseService {
     constructor(
         @InjectRepository(PurchaseEntity)
         private readonly purchaseRepository:Repository<PurchaseEntity>,
-        @InjectRepository(PurchaseEntity)
+        @InjectRepository(PurchaseItemEntity)
         private readonly purchaseItemRepository:Repository<PurchaseItemEntity>,
         private readonly dataSource: DataSource
 
