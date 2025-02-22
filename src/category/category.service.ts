@@ -31,6 +31,14 @@ return categories;
     };
 
     async addCategory(categoryDto :CategoryDto){
+
+        if(!categoryDto.categoryname){
+            throw new Error("Category name is required")
+        }
+
+        if(!categoryDto.subcategory){
+            throw new Error("SubCategory name is required")
+        }
         const newCategory = this.categoryRepository.create({ categoryname: categoryDto.categoryname });
         const savedCategory = await this.categoryRepository.save(newCategory);
     

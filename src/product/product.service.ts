@@ -17,6 +17,9 @@ export class ProductService {
     }
 
     async addProduct(productdto:ProductDto){
+        if(Object.values(productdto).some(value => value === undefined || value == null || value === '')){
+            throw new Error("Fill all the details")
+        }
         const newProduct = this.productRepository.create(productdto)
         await this.productRepository.save(newProduct)
         return {
