@@ -7,6 +7,6 @@ import { StatusEntity } from './entity/StatusEntity';
 @Module({
   imports:[TypeOrmModule.forFeature([StatusEntity])],
   controllers: [StatusController],
-  providers: [StatusService]
+  providers: [StatusService],
 })
 export class StatusModule {}
