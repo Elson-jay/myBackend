@@ -14,7 +14,7 @@ export class CategoryService {
         private readonly subCategoryRepository:Repository<SubCategoryEntity>
     ){}
 
-    async getCategory():Promise<CategoryEntity[]>{
+    async getCategory(){
         const categories = await this.categoryRepository
         .createQueryBuilder("category")
         .leftJoinAndSelect("category.subCategory", "subCategory") 
@@ -25,8 +25,7 @@ export class CategoryService {
             "subCategory.subcategoryname"
         ])
     .getMany();
-return categories;
-
+    return {message:'Category Get Successfully',data:categories,code:200};
 
     };
 
@@ -35,7 +34,6 @@ return categories;
         if(!categoryDto.categoryname){
             throw new Error("Category name is required")
         }
-
         if(!categoryDto.subcategory){
             throw new Error("SubCategory name is required")
         }

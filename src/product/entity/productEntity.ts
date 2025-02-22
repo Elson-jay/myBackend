@@ -29,4 +29,7 @@ export class ProductEntity {
     @Column()
     Threshold:number;
 
+    @Column({default:false})
+    isDelete:boolean;
+
 } 
