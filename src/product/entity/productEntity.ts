@@ -18,9 +18,6 @@ export class ProductEntity {
     mrp:number;
 
     @Column()
-    stockId:number;
-
-    @Column()
     catgoryId:number;
 
     @Column()
