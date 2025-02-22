@@ -23,7 +23,7 @@ export class PurchaseService {
     
         try {
             const newPurchase = this.purchaseRepository.create({
-                supplierId: purchasedto.supplierId,
+                supplierId: Number(purchasedto.supplierId),
                 purchaseDate: purchasedto.purchaseDate,
                 paymentMethod: purchasedto.paymentMethod,
                 bill: purchasedto.bill,
@@ -33,10 +33,10 @@ export class PurchaseService {
             const purchase = await queryRunner.manager.save(newPurchase);
     
             const purchaseItems = purchasedto.purchase.map((item) => ({
-                productId: item.productId,
+                productId: Number(item.productId),
                 quantity: Number(item.quantity),
                 price: Number(item.price),
-                purchaseId: purchase.id,
+                purchaseId: Number(purchase.id),
             }));
     
             const createPurchaseItem = this.purchaseItemRepository.create(purchaseItems);
