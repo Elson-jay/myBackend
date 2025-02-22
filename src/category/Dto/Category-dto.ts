@@ -1,10 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsAscii, IsNotEmpty, ValidateNested } from "class-validator";
+import { IsAscii, IsNotEmpty, IsString, ValidateNested } from "class-validator";
 
 
 export class subCategoryDto {
-    @IsNotEmpty()
+    @IsNotEmpty({ message: 'Name is required' })
+    @IsString()
     @ApiProperty()
     subcategoryname:string
 
@@ -14,7 +15,8 @@ export class subCategoryDto {
 
 export class CategoryDto {
 
-    @IsNotEmpty()
+    @IsNotEmpty({ message: 'Name is required' })
+    @IsString()
     @ApiProperty()
     categoryname:string
 
