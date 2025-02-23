@@ -27,9 +27,9 @@ export class ProductService {
         }
         const category = await this.categoryRepository.find()
 
-        const categoryExists = category.some(cat => 
+        const categoryExists = category?.some(cat => 
             cat.id === productdto.catgoryId &&
-            cat.subCategory.some(sub => sub.id === productdto.subCatgoryId)
+            cat.subCategory?.some(sub => sub.id === productdto.subCatgoryId)
         );
         
         if (!categoryExists) {
