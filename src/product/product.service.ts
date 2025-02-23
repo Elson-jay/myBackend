@@ -31,15 +31,11 @@ export class ProductService {
             cat.id === productdto.catgoryId && // Fix typo: catgoryId → categoryId
             cat.subCategory?.some(sub => sub.id === productdto.subCatgoryId) // Fix typo: subCatgoryId → subCategoryId
         );
-        console.log(categoryExists)
-        if (!categoryExists) {
+        
+        if (categoryExists) {
             throw new BadRequestException('Invalid category or subcategory ID');
         }
         
-        
-        if (!categoryExists) {
-            throw new BadRequestException('Invalid category or subcategory ID');
-        }
         
         
         const newProduct = this.productRepository.create(productdto)
