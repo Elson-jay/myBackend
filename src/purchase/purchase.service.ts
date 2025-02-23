@@ -51,7 +51,7 @@ export class PurchaseService {
                 totalPrice, 
             });
     
-            const purchase = await queryRunner.manager.save(newPurchase);
+            const purchase = await queryRunner.manager.save(newPurchase,{reload:true});
     
             const purchaseItems = purchasedto.purchase.map((item) => {
                 const product = products.find(p => p.id === item.productId);
@@ -59,12 +59,11 @@ export class PurchaseService {
                     productId: item.productId,
                     quantity: Number(item.quantity),
                     price: Number(product?.productPrice), 
-                    purchaseId: Number(purchase.id),
+                    purchaseId:purchase.id,
                 };
             });
     
-            const createPurchaseItem = this.purchaseItemRepository.create(purchaseItems);
-            await queryRunner.manager.save(createPurchaseItem);
+            await queryRunner.manager.save(PurchaseItemEntity,purchaseItems);
     
             await queryRunner.commitTransaction();
             return { message: 'Purchase Added', code: 200 };
