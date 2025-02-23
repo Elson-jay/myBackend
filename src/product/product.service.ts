@@ -25,12 +25,16 @@ export class ProductService {
         if(Object.values(productdto).some(value => value === undefined || value == null || value === '')){
             throw new BadRequestException("Fill all the details")
         }
-        const category = this.categoryRepository.find()
+        const category = await this.categoryRepository.find()
 
-        const categoryExists = (await category).find(cat => 
+        const categoryExists = category.some(cat => 
             cat.id === productdto.catgoryId &&
-            cat.subCategory?.filter(subCat => subCat.id === productdto.subCatgoryId)
+            cat.subCategory.some(sub => sub.id === productdto.subCatgoryId)
         );
+        
+        if (!categoryExists) {
+            throw new BadRequestException('Invalid category or subcategory ID');
+        }
         
         if (!categoryExists) {
             throw new BadRequestException('Invalid category or subcategory ID');
