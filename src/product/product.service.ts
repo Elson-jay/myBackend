@@ -29,7 +29,7 @@ export class ProductService {
 
         const categoryExists = (await category).find(cat => 
             cat.id === productdto.catgoryId &&
-            cat.subCategory.some(subCat => subCat.id === productdto.subCatgoryId)
+            cat.subCategory?.some(subCat => subCat.id === productdto.subCatgoryId)
         );
         
         if (!categoryExists) {
