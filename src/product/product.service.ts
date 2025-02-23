@@ -28,8 +28,14 @@ export class ProductService {
         const category = await this.categoryRepository.find()
 
         const categoryExists = category?.some(cat => 
-            cat.subCategory?.filter(sub => sub.id === productdto.subCatgoryId && sub.categoryId == productdto.catgoryId)
+            cat.id === productdto.catgoryId && // Fix typo: catgoryId → categoryId
+            cat.subCategory?.some(sub => sub.id === productdto.subCatgoryId) // Fix typo: subCatgoryId → subCategoryId
         );
+        console.log(categoryExists)
+        if (!categoryExists) {
+            throw new BadRequestException('Invalid category or subcategory ID');
+        }
+        
         
         if (!categoryExists) {
             throw new BadRequestException('Invalid category or subcategory ID');
