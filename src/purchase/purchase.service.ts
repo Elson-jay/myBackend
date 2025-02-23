@@ -74,6 +74,10 @@ export class PurchaseService {
         } finally {
             await queryRunner.release();
         }
+    };
+
+    async getPurchaseList():Promise<PurchaseEntity[]>{
+        return await this.purchaseRepository.find()
     }
     
 }

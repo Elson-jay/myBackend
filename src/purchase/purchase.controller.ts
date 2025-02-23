@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { PurchaseService } from './purchase.service';
 import { PurchaseDto } from './Dto/PurchaseDto';
 
@@ -11,5 +11,9 @@ export class PurchaseController {
     @Post("/addPurchase")
     async addPurchase(@Body() purchaseDto:PurchaseDto){
         return await this.purchaseServer.addPurchase(purchaseDto)
+    }
+    @Get("/getPurchase")
+    async getPurchase(){
+        return await this.purchaseServer.getPurchaseList();
     }
 }
