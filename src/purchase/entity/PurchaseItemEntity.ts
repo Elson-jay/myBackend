@@ -11,11 +11,11 @@ export class PurchaseItemEntity {
     purchase: PurchaseEntity;
 
     @Column()
-    productId: number;
+    purchaseId: number;
 
-    @Column({ type: 'int' })  // ✅ Change from `string` to `int`
+    @Column({ type: 'int' })  
     quantity: number;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 })  // ✅ Ensure price is stored correctly
+    @Column({ type: 'decimal', precision: 10, scale: 2 })  
     price: number;
 }

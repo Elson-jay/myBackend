@@ -78,7 +78,9 @@ export class PurchaseService {
     };
 
     async getPurchaseList():Promise<PurchaseEntity[]>{
-        return await this.purchaseRepository.find()
+        return await this.purchaseRepository.find({
+            relations:['items']
+        })
     }
     
 }
