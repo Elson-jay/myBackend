@@ -6,7 +6,7 @@ export class PurchaseItemEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => PurchaseEntity, (purchase) => purchase.item, { eager: true })
+    @ManyToOne(() => PurchaseEntity, (purchase) => purchase.purchaseItems, { eager: true })
     @JoinColumn({ name: 'purchaseId' })
     purchase: PurchaseEntity;
 

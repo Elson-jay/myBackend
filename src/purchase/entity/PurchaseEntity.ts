@@ -23,5 +23,5 @@ export class PurchaseEntity {
     bill:string;
 
     @OneToMany(() => PurchaseItemEntity,(item)=>item.purchase,{cascade:true})
-    item:PurchaseItemEntity[];
+    purchaseItems:PurchaseItemEntity[];
 }
