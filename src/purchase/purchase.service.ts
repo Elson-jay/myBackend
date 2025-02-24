@@ -51,7 +51,7 @@ export class PurchaseService {
                 totalPrice, 
             });
     
-            const purchase = await queryRunner.manager.save(newPurchase,{reload:true});
+            const purchase = await queryRunner.manager.save(PurchaseEntity,newPurchase);
     
             const purchaseItems = purchasedto.purchase.map((item) => {
                 const product = products.find(p => p.id === item.productId);
@@ -62,6 +62,8 @@ export class PurchaseService {
                     purchaseId:purchase.id,
                 };
             });
+
+            console.log(purchase)
     
             await queryRunner.manager.save(PurchaseItemEntity,purchaseItems);
     
