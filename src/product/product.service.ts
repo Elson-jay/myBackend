@@ -5,6 +5,8 @@ import { ProductEntity } from './entity/productEntity';
 import { ProductDto } from './Dto/product-dto';
 import { ProductDeleteDto, UpdateProductDto } from './Dto/updateProduct-dto';
 import { CategoryEntity } from 'src/category/entity/CategoryEntity';
+import { SupabaseService } from './supabase.service';
+import { InventoryEntity } from 'src/inventory/entity/InventoryEntity';
 
 @Injectable()
 export class ProductService {
@@ -12,7 +14,8 @@ export class ProductService {
         @InjectRepository(ProductEntity)
         private readonly productRepository:Repository<ProductEntity>,
         @InjectRepository(CategoryEntity)
-        private readonly categoryRepository:Repository<CategoryEntity>
+        private readonly categoryRepository:Repository<CategoryEntity>,
+        private readonly supabaseService: SupabaseService
     ){}
 
     async getProduct(){
@@ -28,18 +31,31 @@ export class ProductService {
         const category = await this.categoryRepository.find()
 
         const categoryExists = category?.some(cat => 
-            cat.id === productdto.catgoryId && // Fix typo: catgoryId → categoryId
-            cat.subCategory?.some(sub => sub.id === productdto.subCatgoryId) // Fix typo: subCatgoryId → subCategoryId
+            cat.id === productdto.catgoryId && 
+            cat.subCategory?.some(sub => sub.id === productdto.subCatgoryId) 
         );
         
         if (categoryExists) {
             throw new BadRequestException('Invalid category or subcategory ID');
         }
         
-        
-        
-        const newProduct = this.productRepository.create(productdto)
+        const supabase = this.supabaseService.getClient();
+        const buffer = Buffer.from(productdto.productImage, 'base64');
+        const generatedFileName = `images/${Date.now()}.png`;
+
+        const { data, error } = await supabase.storage
+            .from('uploads') // Bucket name
+            .upload(generatedFileName, buffer, {
+                contentType: 'image/png',
+            });
+
+        if (error) throw new BadRequestException(`Image upload failed: ${error.message}`);
+
+        const imageUrl = `https://bfqfygdbshnmfelvmcyv.supabase.co/storage/v1/object/public/uploads/${generatedFileName}`;
+
+        const newProduct = this.productRepository.create({...productdto,productImage:imageUrl})
         await this.productRepository.save(newProduct)
+
         return {
             code:200,
             message:'Product added successfully',

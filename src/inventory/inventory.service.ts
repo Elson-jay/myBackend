@@ -11,6 +11,8 @@ export class InventoryService {
     ){}
 
     async getInventory():Promise<InventoryEntity[]>{
-        return await this.inventoryRepository.find();
+        return await this.inventoryRepository.find({
+            relations:['product']
+        });
     };
 }

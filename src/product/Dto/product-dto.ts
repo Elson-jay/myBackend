@@ -24,6 +24,10 @@ export class ProductDto {
 
     @IsNotEmpty()
     @ApiProperty()
+    Threshold:number
+
+    @IsNotEmpty()
+    @ApiProperty()
     catgoryId:number;
 
     @IsNotEmpty()

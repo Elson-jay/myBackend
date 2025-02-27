@@ -1,6 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { InventoryEntity } from './entity/InventoryEntity';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('inventory')
 export class InventoryController {
@@ -9,6 +11,8 @@ export class InventoryController {
     ){}
 
     @Get('/getInventory')
+    @ApiBearerAuth('adminBearerAuth')
+    @UseGuards(AuthGuard)
     async getInventory():Promise<InventoryEntity[]>{
         return this.inventoryService.getInventory();
     }

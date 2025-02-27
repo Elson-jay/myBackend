@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PurchaseEntity } from "./PurchaseEntity";
+import { ProductEntity } from "src/product/entity/productEntity";
 
 @Entity({ name: 'purchaseitems' })
 export class PurchaseItemEntity {
@@ -12,6 +13,13 @@ export class PurchaseItemEntity {
 
     @Column()
     purchaseId: number;
+
+    @Column()
+    productId: number;
+
+    @ManyToOne(() =>ProductEntity,(product) => product.purchaseItem)
+    @JoinColumn({name:'productId'})
+    product:ProductEntity;
 
     @Column({ type: 'int' })  
     quantity: number;
